@@ -1,0 +1,33 @@
+# see: http://www.bunkei-programmer.net/entry/2015/05/16/162020
+
+# Laravelインストール 注意！composerはExtraModuleです
+
+
+
+- name: create app directory
+  file: path={{ app_root }}/lib state=directory
+#  when: laravel_app_dir.stat.exists == False
+
+
+- name: laravel install
+  composer:
+    command: require
+    arguments: "laravel/installer=~1.1"
+    working_dir: "{{app_root}}/lib"
+
+- name: gulpをローカルにインストールする
+  npm: name=gulp global=no path={{www_doc_root}}/../
+
+- name: npm installを実行する
+  npm: path={{www_doc_root}}/../
+
+
+#- name: check app directory
+#  stat: path={{ app_root }}
+#  register: laravel_app_dir
+
+#
+#- name: Laravelをコマンドラインからインストールします
+#  shell: /bin/bash -lc "/usr/local/bin/composer global require 'laravel/installer=~1.1' && laravel new {{laravel_project}}"
+#  args:
+#    chdir: "{{ app_root }}"

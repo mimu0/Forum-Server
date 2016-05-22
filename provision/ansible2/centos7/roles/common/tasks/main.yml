@@ -1,0 +1,16 @@
+# 共通処理リポジトリの追加
+- name: install required packages
+  yum: name={{item}}
+  with_items:
+    - libselinux-python
+    - MySQL-python
+    - gcc
+    - gcc-c++
+    - git
+    - vim
+
+- name: selinuxを無効にする
+  selinux: state=disabled
+
+- name: firewallを無効にする
+  service: name=firewalld state=stopped enabled=no

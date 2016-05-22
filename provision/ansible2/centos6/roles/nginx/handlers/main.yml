@@ -1,0 +1,3 @@
+#Nginxのハンドラ
+- name: start nginx
+  service: name=nginx state=restarted

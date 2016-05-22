@@ -1,0 +1,15 @@
+# Jenkins のインストール
+- name: copy jenkins repository file
+  template:
+    backup=yes
+    src=jenkins.repo
+    dest=/etc/yum.repos.d/
+
+- name: import rpm key
+  shell: bash -lc "rpm --import https://jenkins-ci.org/redhat/jenkins-ci.org.key"
+
+- name: install jenkins
+  yum: name=jenkins state=installed  enablerepo=jenkins
+
+- name: start jenkins
+  service: name=jenkins state=started enabled=yes

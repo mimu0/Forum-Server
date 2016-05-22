@@ -1,0 +1,29 @@
+#MySQLのインストール
+
+- name: install mysql
+  yum: name=mysql-community-server enablerepo=mysql56-community state=installed
+  changed_when: True
+  notify: start mysqld
+
+# アカウントの作成なども行うのでサービス起動。ただし、いずれ分化することも検討する
+
+- name: service 起動
+  service: name=mysqld state=started enabled=yes
+#
+#
+
+- name: create account
+#  mysql_user: name={{ mysql_user }} password={{ mysql_password }} host=% state=absent
+  # mysql_user: name={{ mysql_user }} password={{ mysql_password }} priv=*.*:ALL,GRANT state=absent
+  shell: /usr/bin/mysqladmin -u {{ mysql_user }} -h localhost.localdomain password {{ mysql_password }}
+  ignore_errors: yes
+
+
+# エラーが解決しないのでいったんコメントアウト
+#- name: create database
+#  mysql_db:
+#    config_file: /etc/my.cnf
+#    name: "{{ mysql_db }}"
+#    state: present
+#    login_user: "{{ mysql_user }}"
+#    login_password: "'{{ mysql_password }}'"

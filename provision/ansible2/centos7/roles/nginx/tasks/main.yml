@@ -1,0 +1,21 @@
+# Nginxのインストール
+
+
+- name: copy nginx.repo
+  template:
+    backup=yes
+    src=nginx.repo
+    dest=/etc/yum.repos.d/
+
+- name: install nginx
+  yum: name=nginx enablerepo=nginx state=installed
+  notify: start nginx
+
+- name: copy config file
+  template:
+    backup=yes
+    src=default.conf
+    dest=/etc/nginx/conf.d/
+
+- name: start nginx
+  service: name=nginx state=started enabled=yes

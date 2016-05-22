@@ -1,0 +1,33 @@
+# 共通処理リポジトリの追加
+- name: install required packages
+  yum: name={{item}}
+  with_items:
+    - libselinux-python
+    - MySQL-python
+    - gcc
+    - gcc-c++
+    - git
+    - vim
+
+#- name: install repository
+#  yum: name={{item}}
+#  with_items:
+#    - http://ftp.iij.ad.jp/pub/linux/fedora/epel/6/x86_64/epel-release-6-8.noarch.rpm
+#    - http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+#    - http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
+#    - http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+
+  # enabledは全て0にする
+- name: setting repository.conf
+  replace: dest=/etc/yum.repos.d/{{item}} regexp='enabled *= *1' replace='enabled=0'
+  with_items:
+    - epel.repo
+    - remi.repo
+    - mysql-community.repo
+    - nginx.repo
+
+- name: selinuxを無効にする
+  selinux: state=disabled
+
+- name: firewallを無効にする
+  service: name=iptables state=stopped enabled=no

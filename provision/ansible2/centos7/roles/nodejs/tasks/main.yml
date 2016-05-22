@@ -1,0 +1,16 @@
+# node.js + npm インストール
+- name: install node.js & npm
+  yum: name={{item}} state=installed enablerepo=epel
+  with_items:
+    - nodejs
+    - npm
+
+- name: install gulp
+  npm: name=gulp global=yes
+
+- name: install babel library
+  shell: npm install --save babel-preset-es2015 babel-preset-react --no-bin-links
+
+- name: install react library
+  shell: npm install --save react react-dom babelify babel-preset-react
+

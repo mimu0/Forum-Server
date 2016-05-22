@@ -1,0 +1,17 @@
+- hosts: vagrant
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - common
+    - nginx
+    - mysql
+    - php7
+    - java1.8
+    - nodejs
+    - ruby
+
+
+# comming soon
+#    - golang
+

@@ -1,0 +1,11 @@
+# Java関連のインストール
+
+- name: install java 1.8
+  yum: name={{item}} state=installed
+  with_items:
+    - java-1.8.0-openjdk
+    - java-1.8.0-openjdk-devel
+
+# Jenkinsのインストール
+- name: install jenkins
+  include: jenkins.yml

@@ -1,0 +1,11 @@
+- hosts: vagrant
+  become: yes
+  vars_files:
+    - vars.yml
+  roles:
+    - common
+    - php7
+    - nginx
+    - mysql
+    - nodejs
+    - laravel
