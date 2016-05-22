@@ -1,4 +1,6 @@
 # golangのインストール
+
+
 - name: Download the Go tarball
   get_url: url=https://storage.googleapis.com/golang/{{ go_tarball }}
     dest=/usr/local/src/{{ go_tarball }}
@@ -8,5 +10,6 @@
     dest=/usr/local
     copy=no
 
+
 - name: Expoort Path
-  shell: bash -lc 'echo 'PATH=$PATH:/usr/local/go/bin' >> /etc/profile ;source /etc/profile '
+  shell: bash -lc "echo 'PATH=$GOPATH:$PATH:/usr/local/go/bin' >> /etc/profile ;source /etc/profile "
