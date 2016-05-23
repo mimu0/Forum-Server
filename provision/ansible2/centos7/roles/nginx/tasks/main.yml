@@ -1,6 +1,5 @@
 # Nginxのインストール
 
-
 - name: copy nginx.repo
   template:
     backup=yes

@@ -1,8 +1,8 @@
 #MySQLのインストール
 
 - name: install repository
-  yum: name=http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
-
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm state=latest
+  # command: rpm -ih http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm creates=/etc/yum.repos.d/mysql-community.repo
 
 - name: setting repository conf
   replace: dest=/etc/yum.repos.d/mysql-community.repo regexp='enabled *= *1' replace='enabled=0'
