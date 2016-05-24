@@ -7,8 +7,8 @@
     - nginx
     - mysql
     - php7
-    - java1.8
-    - nodejs
-    - ruby
-    - golang
+#    - java1.8
+#    - nodejs
+#    - ruby
+#    - golang
 
