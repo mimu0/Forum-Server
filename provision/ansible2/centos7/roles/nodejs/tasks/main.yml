@@ -1,4 +1,17 @@
 # node.js + npm インストール
+
+- name: install repository
+  yum: name={{item}}
+  with_items:
+    - http://ftp.iij.ad.jp/pub/linux/fedora/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
+    - http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+
+- name: setting repository.conf
+  replace: dest=/etc/yum.repos.d/{{item}} regexp='enabled *= *1' replace='enabled=0'
+  with_items:
+    - epel.repo
+    - remi.repo
+
 - name: install node.js & npm
   yum: name={{item}} state=installed enablerepo=epel
   with_items:

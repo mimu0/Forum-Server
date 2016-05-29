@@ -39,9 +39,18 @@
 
 - name: insatll composer
   shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar composer chdir=/usr/local/bin
+  when: php7_composer_install
 
-- - name: copy xdebug config file
-    template:
-      backup=yes
-      src=15-xdebug.ini
-      dest=/etc/php.d/
+- name: copy xdebug config file
+  template:
+    backup=yes
+    src=15-xdebug.ini
+    dest=/etc/php.d/
+  when: php7_xdebug_install
+
+- name: install deployer
+  get_url:
+    url=http://deployer.org/deployer.phar
+    dest=/usr/local/bin/dep
+    mode=0755
+  when: php7_deployer_install

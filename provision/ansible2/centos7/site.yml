@@ -1,14 +1,14 @@
 - hosts: vagrant
   become: yes
   vars_files:
-    - vars.yml
+    - settings.yml
   roles:
     - common
-    - nginx
-    - mysql
-    - php7
-#    - java1.8
-#    - nodejs
-#    - ruby
-#    - golang
+    - { role: nginx, when: nginx_install}
+    - { role: mysql, when: mysql_install }
+    - { role: php7, when: php7_install }
+    - { role: java1.8, when: java1_8_install }
+    - { role: nodejs, when: nodejs_install }
+    - { role: ruby, when: ruby_install }
+    - { role: golang, when: golang_install }
 

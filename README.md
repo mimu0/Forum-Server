@@ -35,23 +35,17 @@ ansible_ssh_pass=vagrant
 ## ansibleの実行
 インストールするミドルウェアを選択します
 
-site.yml内のroles配下に宣言されている項目からインストールするものを選択します。  
-最初は全てが導入されるようになっているので、不要なものを削除してください。  
-ただしcommonは必ず残しておいてください。  
-例）Nginx MySQL PHPのみを入れる場合は以下のようにします。  
-```
-  roles:
-    - common
-    - nginx
-    - mysql
-    - php7
-```
+settings.ymlで``` ○○_install: ``` と書かれている項目にtrueを設定することでインストール対象になります。
+
+ただしcommonは必ずインストールされます。
 
 ミドルウェアの選択が終わったら実行します。
 ```
 ansible-playbook -i hosts -vvv  site.yml
 ```
+
 今回はIDとパスワードでログインしますが鍵ファイルを利用することも可能です。
 
 プロビジョニングの中で試験的にMySQLのアカウント作成やDB作成を行っています。  
-各種情報についてはvars.ymlを参照してください。
+各種情報についてはsettings.ymlを参照してください。
+s
