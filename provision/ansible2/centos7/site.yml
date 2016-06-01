@@ -11,4 +11,4 @@
     - { role: nodejs, when: nodejs_install }
     - { role: ruby, when: ruby_install }
     - { role: golang, when: golang_install }
-
+    - { role: fluentd, when: fluentd_install }

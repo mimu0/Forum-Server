@@ -35,3 +35,7 @@ ruby_install: false
 
 # golangのインストール及び各種設定
 golang_install: true
+
+
+# fluentdのインストール及び各種設定
+fluentd_install: true
