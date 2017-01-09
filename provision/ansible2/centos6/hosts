@@ -1,5 +1,5 @@
 [vagrant]
-192.168.33.101
+192.168.33.105
 
 [all:vars]
 ansible_ssh_user=vagrant

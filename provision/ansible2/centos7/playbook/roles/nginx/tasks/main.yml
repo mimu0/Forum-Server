@@ -13,7 +13,7 @@
 - name: copy config file
   template:
     backup=yes
-    src=default.conf
+    src=httpd.conf
     dest=/etc/nginx/conf.d/
 
 - name: start nginx
