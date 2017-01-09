@@ -1,7 +1,11 @@
 app_root: /vagrant
 
+
+# Apacheのインストール及び各種設定
+httpd_install: true
+
 # Nginxのインストール及び各種設定
-nginx_install: true
+nginx_install: false
 
 
 # laravel
@@ -13,7 +17,7 @@ www_doc_root: /vagrant/
 # mysqlのインストール及び各種設定
 mysql_install: true
 
-mysql_db: homestead
+mysql_db: wodpress
 mysql_user: root
 mysql_password: 1234
 
@@ -21,21 +25,21 @@ mysql_password: 1234
 php7_install: true
 php7_xdebug_install: true # デバッガ
 php7_composer_install: true # パッケージ管理ツール
-php7_deployer_install: true # デプロイツール
+php7_deployer_install: false # デプロイツール
 
 # java1.8のインストール及び各種設定
-java1_8_install: true
+java1_8_install: false
 
 # nodejsのインストール及び各種設定
-nodejs_install: true
+nodejs_install: false
 
 # rubyのインストール及び各種設定
 ruby_install: false
 
 
 # golangのインストール及び各種設定
-golang_install: true
+golang_install: false
 
 
 # fluentdのインストール及び各種設定
-fluentd_install: true
+fluentd_install: false
