@@ -15,7 +15,8 @@ laravel_project: homestead
 www_doc_root: /vagrant/
 
 # mysqlのインストール及び各種設定
-mysql_install: true
+mysql_install: false
+mysql57_install:true
 
 mysql_db: wodpress
 mysql_user: root

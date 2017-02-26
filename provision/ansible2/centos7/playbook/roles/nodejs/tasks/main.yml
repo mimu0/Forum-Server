@@ -27,3 +27,6 @@
 - name: install react library
   shell: npm install --save react react-dom babelify babel-preset-react
 
+# yarnも入れます
+- name: install yarn
+  shell: npm install yarn
