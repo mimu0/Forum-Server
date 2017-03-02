@@ -1,32 +1,39 @@
-# node.js + npm インストール
+---
 
+# node.js + npm  + yarnインストール
+# リポジトリの情報をセットアップ
 - name: install repository
-  yum: name={{item}}
-  with_items:
-    - http://ftp.iij.ad.jp/pub/linux/fedora/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
-    - http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+  shell: curl --silent --location https://rpm.nodesource.com/setup_7.x | bash -
 
-- name: setting repository.conf
-  replace: dest=/etc/yum.repos.d/{{item}} regexp='enabled *= *1' replace='enabled=0'
-  with_items:
-    - epel.repo
-    - remi.repo
+- name: setting repo file
+  replace: dest=/etc/yum.repos.d/nodesource-el7.repo regexp='enabled *= *1' replace='enabled=0'
 
-- name: install node.js & npm
-  yum: name={{item}} state=installed enablerepo=epel
+# 必要なライブラリをインストールする
+- name: install library
+  yum: name={{ item }} state=present
   with_items:
-    - nodejs
+    - gcc-c++
+    - make
     - npm
+- name: install node.js
+  yum: name=nodejs enablerepo=nodesource state=installed
 
-- name: install gulp
-  npm: name=gulp global=yes
+# yarn install
+- name: download yarn repo file
+  get_url:
+    url: https://dl.yarnpkg.com/rpm/yarn.repo
+    dest: /etc/yum.repos.d/yarn.repo
 
-- name: install babel library
-  shell: npm install --save babel-preset-es2015 babel-preset-react --no-bin-links
+- name: setting repo file
+  replace: dest=/etc/yum.repos.d/yarn.repo regexp='enabled *= *1' replace='enabled=0'
 
-- name: install react library
-  shell: npm install --save react react-dom babelify babel-preset-react
-
-# yarnも入れます
 - name: install yarn
-  shell: npm install yarn
+  yum: name=yarn enablerepo=yarn state=installed
+
+# npmでインストールするものがあれば.基本的にグローバル領域へインストールするものを対象としてください.
+- name: install js library
+  shell: npm install {{ item }}
+  with_items:
+       - "npm@latest -g" # npm最新に
+  ignore_errors: True # ワーニングは無視する
+
