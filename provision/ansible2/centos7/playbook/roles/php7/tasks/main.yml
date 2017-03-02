@@ -54,3 +54,7 @@
     dest=/usr/local/bin/dep
     mode=0755
   when: php7_deployer_install
+
+# デバッグ環境用の環境変数の設定
+- name: set env
+  lineinfile: dest=/etc/bashrc line="export PHP_IDE_CONFIG=\"serverName={{ ansible_enp0s8.ipv4.address }}\"\nexport XDEBUG_CONFIG=\"idekey=ide-xdebug\"\nexport COMPOSER_DISABLE_XDEBUG_WARN=1"
