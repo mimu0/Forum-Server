@@ -16,7 +16,7 @@
 
 
 - name: insatll php7
-  yum: name={{item}} state=installed enablerepo=epel,remi-php70
+  yum: name={{item}} state=installed enablerepo=remi,remi-php71
   with_items:
     - php
     - php-cli
