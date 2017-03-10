@@ -1,0 +1,92 @@
+---
+
+- name: init
+  include: init.yml
+
+# https://developers.eure.jp/tech/elasticsearch_5-0-0_ga-2/
+- name: install the public signing key
+  rpm_key:
+    state: present
+    key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+
+- name: copy elasticsearch.repo
+  template:
+    backup=yes
+    src=elasticsearch.repo.j2
+    dest=/etc/yum.repos.d/elasticsearch.repo
+
+- name: install Elasticsearch & kibana
+  yum: name={{ item }} enablerepo="elasticsearch-{{elasticsearch_version}}" state=latest
+  with_items:
+    - elasticsearch
+    - kibana
+
+# kibanaとlogstashはわけないとkibanaがインストールされない
+- name: install  logstash
+  yum: name={{ item }} enablerepo="elasticsearch-{{elasticsearch_version}}" state=latest
+  with_items:
+    - logstash
+
+# plubinインストール
+# 全文検索用
+- name: install kuromoji
+  shell: "{{elasticsearch_bin}}/elasticsearch-plugin install analysis-kuromoji"
+
+
+# JDBC Plugin
+# https://github.com/jprante/elasticsearch-jdbc
+
+#- name: install library
+#  yum: name={{ item }} state=present
+#  with_items:
+#    - unzip
+#
+#- name: download jdbc
+#  get_url: url="http://xbib.org/repository/org/xbib/elasticsearch/importer/elasticsearch-jdbc/<version>/elasticsearch-jdbc-{{elasticsearch_version}}-dist.zip" dest=/tmp/jdbc_importer.zip
+#
+#- name: unzip jdbc
+#  unarchive: src=/tmp/jdbc_importer.zip dest=/usr/local/src copy=no
+
+
+- name: copy elasticsearch config filel
+  template:
+    backup=yes
+    src="{{ item }}.j2"
+    dest="/etc/elasticsearch/{{ item }}"
+  with_items:
+      - elasticsearch.yml
+      - kibana.yml
+      - jvm.options
+
+- name: copy kibana config filel
+  template:
+    backup=yes
+    src="{{ item }}.j2"
+    dest="/etc/kibana/{{ item }}"
+  with_items:
+      - kibana.yml
+
+
+- name: copy logstash config filel
+  template:
+    backup=yes
+    src="{{ item }}.j2"
+    dest="/etc/logstash/conf.d/{{ item }}"
+  with_items:
+      - jdbc.conf
+
+- name: Running Kibana with systemd
+  systemd: name=kibana.service state=restarted enabled=yes
+
+- name: Running Elasticsearch with systemd
+  systemd: name=elasticsearch.service state=restarted enabled=yes
+
+
+#- name: shell・・・
+#  shell: systemctl start elasticsearch.service
+#  ignore_errors: True # ワーニングは無視する
+
+
+# version check  curl -XGET localhost:9200
+#- name: display version
+#  shell: curl -XGET localhost:9200

@@ -1,0 +1,10 @@
+# 変数初期値設定。他のファイルで定義されてなかったらこのファイルの定義を利用します
+- name: settting elasticsearch version
+  set_fact:
+    elasticsearch_version: "5.2"
+    when: elasticsearch_version is undefined
+
+- name: settting elasticsearch bin path
+  set_fact:
+    elasticsearch_bin: "/usr/share/elasticsearch/bin"
+    when: elasticsearch_bin is undfined

@@ -16,7 +16,7 @@ www_doc_root: /vagrant/
 
 # mysqlのインストール及び各種設定
 mysql_install: false
-mysql57_install:true
+mysql57_install: true
 
 mysql_db: wodpress
 mysql_user: root
@@ -44,3 +44,6 @@ golang_install: false
 
 # fluentdのインストール及び各種設定
 fluentd_install: false
+
+# elasticsearch
+elasticsearch_install: true
