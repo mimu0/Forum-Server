@@ -14,7 +14,7 @@
   with_items:
     - gcc-c++
     - make
-    - npm
+
 - name: install node.js
   yum: name=nodejs enablerepo=nodesource state=installed
 
