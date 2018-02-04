@@ -8,7 +8,8 @@
     - { role: httpd, when: httpd_install}
     - { role: mysql, when: mysql_install }
     - { role: mysql57, when: mysql57_install }
-    - { role: php7, when: php7_install }
+    - { role: php71, when: php71_install }
+    - { role: php72, when: php72_install }
     - { role: java1.8, when: java1_8_install }
     - { role: nodejs, when: nodejs_install }
     - { role: ruby, when: ruby_install }

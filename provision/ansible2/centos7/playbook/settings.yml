@@ -23,8 +23,9 @@ mysql_user: root
 mysql_password: 1234
 
 # phpのインストール及び各種設定
-php7_install: true
-php7_xdebug_install: true # デバッガ
+php71_install: false
+php72_install: true
+php7_xdebug_install: false # デバッガ
 php7_composer_install: true # パッケージ管理ツール
 php7_deployer_install: false # デプロイツール
 
@@ -46,4 +47,4 @@ golang_install: false
 fluentd_install: false
 
 # elasticsearch
-elasticsearch_install: true
+elasticsearch_install: false
