@@ -1,0 +1,3 @@
+# MySQLのハンドラー
+- name: start mysqld
+  service: name=mysqld state=started enabled=yes

@@ -1,0 +1,56 @@
+#MySQLのインストール
+- name: install python library
+
+  yum: name={{ item }} state=present
+  with_items:
+    - MySQL-python
+
+- name: install repository
+  yum: name=http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+
+
+- name: setting repository conf
+  replace: dest=/etc/yum.repos.d/mysql-community.repo regexp='enabled *= *1' replace='enabled=0'
+
+- name: install mysql
+  yum: name=mysql-community-server enablerepo=mysql57-community state=installed
+  changed_when: True
+  notify: start mysqld
+
+
+- name: service start
+  service: name=mysqld state=started enabled=yes
+
+- name: extraction default root password
+  shell: cat /var/log/mysqld.log | grep 'temporary password' | awk '{ print $NF }' | head -n 1
+  register: mysql_root_password_temp
+
+
+# MySQLのセキュリティ設定を著しく落とします.
+- name: change password validation to the easy way
+  shell: |
+    mysql -u root -p'{{ mysql_root_password_temp.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_length=4;"
+    mysql -u root -p'{{ mysql_root_password_temp.stdout }}' --connect-expired-password -e "SET GLOBAL validate_password_policy=LOW;"
+  tags: mysql
+  ignore_errors: True
+
+- name: change root user password
+  shell: |
+    mysql -u root -p'{{ mysql_root_password_temp.stdout }}' --connect-expired-password -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_password }}';"
+  tags: mysql
+  ignore_errors: True
+
+- name: Tune MySQL configuration
+  template:
+    src: my.cnf
+    dest: ~/.my.cnf
+    mode: 0644
+
+- name: Create database
+  mysql_db: name={{ item }} state=present
+  with_items:
+    - "{{ mysql_db_list }}"
+  tags: mysqld
+  when: mysql_db_list is defined
+
+

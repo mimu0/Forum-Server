@@ -1,0 +1,39 @@
+---
+
+# node.js + npm  + yarnインストール
+# リポジトリの情報をセットアップ
+- name: install repository
+  shell: curl --silent --location https://rpm.nodesource.com/setup_7.x | bash -
+
+- name: setting repo file
+  replace: dest=/etc/yum.repos.d/nodesource-el7.repo regexp='enabled *= *1' replace='enabled=0'
+
+# 必要なライブラリをインストールする
+- name: install library
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc-c++
+    - make
+
+- name: install node.js
+  yum: name=nodejs enablerepo=nodesource state=installed
+
+# yarn install
+- name: download yarn repo file
+  get_url:
+    url: https://dl.yarnpkg.com/rpm/yarn.repo
+    dest: /etc/yum.repos.d/yarn.repo
+
+- name: setting repo file
+  replace: dest=/etc/yum.repos.d/yarn.repo regexp='enabled *= *1' replace='enabled=0'
+
+- name: install yarn
+  yum: name=yarn enablerepo=yarn state=installed
+
+# npmでインストールするものがあれば.基本的にグローバル領域へインストールするものを対象としてください.
+- name: install js library
+  shell: npm install {{ item }}
+  with_items:
+       - "npm@latest -g" # npm最新に
+  ignore_errors: True # ワーニングは無視する
+

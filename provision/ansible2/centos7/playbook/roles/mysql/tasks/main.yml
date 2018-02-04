@@ -1,0 +1,21 @@
+#MySQLのインストール
+
+- name: install repository
+  yum: name=http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm
+
+
+- name: setting repository conf
+  replace: dest=/etc/yum.repos.d/mysql-community.repo regexp='enabled *= *1' replace='enabled=0'
+
+- name: install mysql
+  yum: name=mysql-community-server enablerepo=mysql56-community state=installed
+  changed_when: True
+  notify: start mysqld
+
+- name: service 起動
+  service: name=mysqld state=started enabled=yes
+
+- name: create account
+  shell: /usr/bin/mysqladmin -u {{ mysql_user }} -h localhost.localdomain password {{ mysql_password }}
+  ignore_errors: yes
+

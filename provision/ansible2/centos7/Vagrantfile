@@ -1,0 +1,22 @@
+Vagrant.configure(2) do |config|
+  config.vm.box = "bento/centos-7.4"
+  config.vm.network "private_network", ip: "192.168.33.10"
+
+  config.vm.provider :virtualbox do |vb|
+      vb.gui = false
+      vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
+
+  # ec-cubeを導入するときの設定例 初回はApacheユーザが存在しないので２回目以降で利用する
+  # config.vm.synced_folder "./eccube", "/vagrant/eccube", owner: 'apache', :mount_options => ["dmode=777", "fmode=777"]
+
+  config.vm.provision "ansible_local" do |ansible|
+    	ansible.sudo           = true
+      ansible.playbook       = "./playbook/site.yml"
+      ansible.verbose        = 'vvvv'
+      ansible.install        = true
+      ansible.limit          = "all" # or only "nodes" group, etc.
+  end
+
+end
+

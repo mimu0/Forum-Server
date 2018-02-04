@@ -1,0 +1,49 @@
+---
+# Rubyのインストール
+
+### 必要パッケージのインストール
+#- name: install required packages
+#  yum: name={{item}}
+#  with_items:
+#    - openssl-devel
+#    - readline-devel
+#    - zlib-devel
+#
+## renvのインストール
+#- name: Check out rbenv into ~/.rbenv.
+#  git: repo=https://github.com/rbenv/rbenv.git
+#      dest=~/.rbenv
+#
+#- name: Installing ruby-build as an rbenv plugin will give you access to the rbenv install command.
+#  git: repo=https://github.com/rbenv/ruby-build.git
+#      dest=~/.rbenv/plugins/ruby-build
+#
+#- name: Add ~/.rbenv/bin to your $PATH for access to the rbenv command-line utility.
+#  shell: bash -lc  "echo 'export PATH=""$HOME/.rbenv/bin:$PATH""' >> ~/.bash_profile"
+#
+#- name: Add echo 'eval "$(rbenv init -)"' >> ~/.bash_profile
+#  shell: bash -lc 'echo ''eval "$(rbenv init -)"'' >> ~/.bash_profile;source ~/.bash_profile'
+#
+#
+#- name: install ruby 2.3.1
+#  shell: bash -lc "rbenv install 2.3.1"
+#
+#- name: install ruby 2.3.1 global
+#  shell: bash -lc "rbenv global 2.3.1"
+#
+#- name: insatll bundler
+#  gem: name=bundler
+#    executable=~/.rbenv/shims/gem
+#    state=latest
+
+# ruby一式入れてますが、最新版にこだわってはいません。
+- name: install ruby
+  yum: name={{ item }} state=present enablerepo=epel
+  with_items:
+    - ruby
+    - ruby-devel
+    - libxml2-devel
+    - libxslt-devel
+    - sqlite-devel
+  tags:
+    - ruby

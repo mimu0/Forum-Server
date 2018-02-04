@@ -1,0 +1,7 @@
+# fluentdのインストール
+- name: Executing install-redhat-td-agent2.sh will automatically install td-agent on your machine. This shell script registers a new rpm repository at /etc/yum.repos.d/td.repo and installs the td-agent rpm package.
+  shell:  curl -L https://toolbelt.treasuredata.com/sh/install-redhat-td-agent2.sh | sh
+
+
+- name: service 起動
+  service: name=td-agent state=started enabled=yes

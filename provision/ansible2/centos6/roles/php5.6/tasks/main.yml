@@ -1,0 +1,31 @@
+# php7のインストール
+- name: insatll php7
+  yum: name={{item}} state=installed enablerepo=epel,remi-php56
+  with_items:
+    - php
+    - php-cli
+    - php-common
+    - php-devel
+    - php-fpm
+    - php-intl
+    - php-mcrypt
+    - php-mbstring
+    - php-mysqlnd
+    - php-opcache
+    - php-gd
+    - php-pdo
+    - php-pecl-imagick
+    - php-pecl-imagick-devel
+    - php-pecl-memcache
+    - php-pecl-xdebug
+    - php-pecl-zip
+    - php-xml
+
+- name: insatll composer
+  shell: curl -sS https://getcomposer.org/installer | php && mv composer.phar composer chdir=/usr/local/bin
+
+- - name: copy xdebug config file
+    template:
+      backup=yes
+      src=15-xdebug.ini
+      dest=/etc/php.d/

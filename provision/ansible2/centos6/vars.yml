@@ -1,0 +1,13 @@
+app_root: /vagrant
+
+
+# laravel
+laravel_project: react_sample
+
+# www
+www_doc_root: /vagrant/react/public
+
+# mysql
+mysql_db: homestead
+mysql_user: root
+mysql_password: 1234
